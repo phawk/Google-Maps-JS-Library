@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Title &amp; Meta -->
+<title>Maps test</title>
+
+<!-- Styles -->
+<link rel="stylesheet" href="css/styles.css" />
+
+<!-- JavaScript -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="phgmaps.js"></script>
+
+</head>
+
+<body>
+
+<div id="wrap">
+	<h1>phawk Google Maps</h1>
+	<div id="mapcontainer"></div>
+</div>
+
+<ul id="mapOptions">
+	<li>
+		<h4>Zoom</h4>
+		<p><a href="#" class="zoomIn">Zoom +</a><br />
+		<a href="#" class="zoomOut">Zoom -</a></p>
+	</li>
+	<li>
+		<h4>Map Type</h4>
+		<p><a href="#" class="mapTypeRoad">Road</a><br />
+		<a href="#" class="mapTypeSatellite">Satellite</a><br />
+		<a href="#" class="mapTypeHybrid">Hybrid</a><br />
+		<a href="#" class="mapTypeTerrain">Terrain</a></p>
+	</li>
+	<li class="desc">
+		<h4>About</h4>
+		<p>Having a little play about with the Google Maps v3 JavaScript API, I have written this small reusable library that will help to create Google maps easier in the future.</p>
+		<p>Take a peek through the source of this page and the phgmaps.js file, everything is quite well commented, so you should be able to figure out what&apos;s going on.</p>
+	</li>
+</ul>
+
+<h2>Basic Usage</h2>
+<ol>
+<li>
+<p>Add the <em>phgmaps.js</em> file to the head of your document.</p>
+</li>
+<li>
+<p>Instantiate a new map object:</p>
+<pre><code>var map = new phawkGmap();</code></pre>
+</li>
+<li>
+<p>Either:  Geocode a map by address</p>
+<pre><code>map.geocodeAddress('1 Infinite Loop, California');</code></pre>
+		
+<p>Or: Create a LatLng Object and use the createMap method:</p>
+<pre><code>var mapPos = new google.maps.LatLng(54.7354923, -5.785993299999973);
+map.createMap(mapPos);</code>
+</pre>
+</li>
+<li>
+<p>You can add a marker at the current map position by using the <em>mapLoaded</em> event listener.</p>
+<pre><code>$(document).bind('mapLoaded', function(){
+	// set markerPosition to a google.maps.LatLng object.
+	var markerPosistion = map.latlng;
+	map.addMarker(markerPosistion);
+});</code></pre>
+</li>
+</ol>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+	// Create the map and geocode an address
+	var map = new phawkGmap();
+	map.geocodeAddress('1 Infinite Loop, California');
+	
+	// Like $(document).ready only for the map being ready
+	$(document).bind('mapLoaded', function(){
+	
+		// Add a new marker at the same latlng as the map center.
+		var markerPosistion = new google.maps.LatLng(54.7354923, -5.785993299999973);
+		map.addMarker(markerPosistion);
+		
+		// Zoom in button
+		$('.zoomIn').bind('click', function(e) {
+			e.preventDefault();
+			var currentZoom = map.mymap.getZoom();
+			map.mymap.setZoom((currentZoom+1));
+		});
+		
+		// Zoom out button
+		$('.zoomOut').bind('click', function(e) {
+			e.preventDefault();
+			var currentZoom = map.mymap.getZoom();
+			map.mymap.setZoom((currentZoom-1));
+		});
+		
+		// Road Map Type Button
+		$('.mapTypeRoad').bind('click', function(e) {
+			e.preventDefault();
+			map.mymap.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+		});
+		
+		// Satellite Map Type Button
+		$('.mapTypeSatellite').bind('click', function(e) {
+			e.preventDefault();
+			map.mymap.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+		});
+		
+		// Hybrid Map Type Button
+		$('.mapTypeHybrid').bind('click', function(e) {
+			e.preventDefault();
+			map.mymap.setMapTypeId(google.maps.MapTypeId.HYBRID);
+		});
+		
+		// Terrain Map Type Button
+		$('.mapTypeTerrain').bind('click', function(e) {
+			e.preventDefault();
+			map.mymap.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+		});
+	
+	}); // End mapLoaded fn
+	
+}); // End $(document).ready
+</script>
+
+</body>
+</html>
