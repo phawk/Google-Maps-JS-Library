@@ -9,12 +9,12 @@ Basic Usage
 		<code>map.geocodeAddress('1 Infinite Loop, California');</code>
 	Or: Create a LatLng Object and use the createMap method:
 		
-		<code>var mapPos = new google.maps.LatLng(54.7354923, -5.785993299999973);
-		map.createMap(mapPos);</code>
+		var mapPos = new google.maps.LatLng(54.7354923, -5.785993299999973);
+		map.createMap(mapPos);
 4. You can add a marker at the current map position by using the *mapLoaded* event listener.
 		
-		<code>$(document).bind('mapLoaded', function(){
+		$(document).bind('mapLoaded', function(){
 			// set markerPosition to a google.maps.LatLng object.
 			var markerPosistion = map.latlng;
 			map.addMarker(markerPosistion);
-		});</code>
+		});
